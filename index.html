@@ -709,14 +709,7 @@ async function playMovie(id, type) {
         <div><div>${tl}</div><div class="sosub">${trailer.name||''}</div></div>
       </button>`;
     }
-    shtml += `<a class="sopt" href="https://pluto.tv/es/search?q=${encodeURIComponent(title)}" target="_blank">
-      <div class="soicon" style="background:#ffdc00;color:#000;">📺</div>
-      <div><div>Pluto TV</div><div class="sosub">Gratis · Colombia</div></div>
-    </a>`;
-    shtml += `<a class="sopt" href="https://tubitv.com/search/${encodeURIComponent(title)}" target="_blank">
-      <div class="soicon" style="background:#fa6400;color:#fff;">T</div>
-      <div><div>Tubi</div><div class="sosub">Gratis con anuncios</div></div>
-    </a>`;
+
     shtml += `<a class="sopt" href="https://www.themoviedb.org/${type}/${id}" target="_blank">
       <div class="soicon" style="background:var(--s3);">🎬</div>
       <div><div>Ficha TMDB</div><div class="sosub">Reparto y más info</div></div>
@@ -865,14 +858,7 @@ async function openInfo(id, type) {
         <div><div>${esTrail?'Tráiler en Español':'Tráiler Oficial'}</div><div class="mosub">${trailer.name||''}</div></div>
       </button>`;
     }
-    html += `<a class="mopt" href="https://pluto.tv/es/search?q=${encodeURIComponent(title)}" target="_blank">
-      <div class="moicon" style="background:#ffdc00;color:#000;">📺</div>
-      <div><div>Pluto TV</div><div class="mosub">Gratis · Colombia</div></div>
-    </a>`;
-    html += `<a class="mopt" href="https://tubitv.com/search/${encodeURIComponent(title)}" target="_blank">
-      <div class="moicon" style="background:#fa6400;color:#fff;">T</div>
-      <div><div>Tubi</div><div class="mosub">Gratis con anuncios</div></div>
-    </a>`;
+
     document.getElementById('m-opts').innerHTML = html;
 
     const reg = prov.results?.CO||prov.results?.MX||prov.results?.AR||prov.results?.ES||prov.results?.US;
