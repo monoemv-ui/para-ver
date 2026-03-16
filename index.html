@@ -132,29 +132,110 @@ main{padding:1.5rem 1.5rem 5rem;}
   border-radius:8px;animation:pulse 1.4s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-/* MODAL */
+/* ── REPRODUCTOR FULLSCREEN ── */
+#player-page{
+  display:none;
+  position:fixed;inset:0;z-index:400;
+  background:var(--bg);
+  flex-direction:column;
+}
+#player-page.open{display:flex;}
+
+#player-topbar{
+  height:52px;flex-shrink:0;
+  display:flex;align-items:center;gap:14px;padding:0 18px;
+  background:rgba(8,8,16,.98);border-bottom:1px solid var(--border);
+}
+#player-back{
+  background:var(--s2);border:1px solid var(--border2);color:var(--text);
+  width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+#player-back:hover{background:var(--red);}
+#player-movie-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;}
+#player-movie-meta{font-size:.72rem;color:var(--muted);margin-left:4px;}
+
+#player-layout{
+  flex:1;display:flex;overflow:hidden;
+}
+
+/* VIDEO PRINCIPAL */
+#video-col{
+  flex:1;display:flex;flex-direction:column;background:#000;min-width:0;
+}
+#video-wrap{
+  position:relative;width:100%;
+  /* Altura calculada: pantalla - topbar(52px) - barra-resultados(~44px) */
+  flex:1;
+  background:#000;
+}
+#main-frame{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  border:none;
+}
+#rbar{
+  flex-shrink:0;height:44px;
+  display:flex;align-items:center;gap:6px;
+  padding:0 12px;
+  background:var(--s2);border-top:1px solid var(--border);
+  overflow-x:auto;white-space:nowrap;scrollbar-width:thin;
+}
+#rbar::-webkit-scrollbar{height:3px;}
+#rbar::-webkit-scrollbar-thumb{background:var(--s3);}
+.rb{
+  background:var(--s3);border:1px solid var(--border2);color:var(--text);
+  padding:4px 11px;border-radius:6px;font-size:.67rem;cursor:pointer;
+  font-family:'Outfit',sans-serif;white-space:nowrap;flex-shrink:0;
+  transition:all .15s;
+}
+.rb:hover,.rb.on{background:var(--red);border-color:var(--red);}
+.rb-ext{
+  background:transparent;border:1px solid rgba(255,80,80,.35);color:#ff7070;
+  padding:4px 11px;border-radius:6px;font-size:.67rem;white-space:nowrap;
+  text-decoration:none;flex-shrink:0;
+}
+.rb-searching{color:var(--muted2);font-size:.73rem;flex-shrink:0;}
+
+/* PANEL LATERAL */
+#side-panel{
+  width:300px;flex-shrink:0;
+  background:var(--surface);border-left:1px solid var(--border);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+#side-poster img{width:100%;height:180px;object-fit:cover;display:block;}
+#side-info{padding:14px;}
+#side-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;margin-bottom:4px;}
+#side-meta{font-size:.72rem;color:var(--muted);margin-bottom:10px;}
+#side-desc{font-size:.78rem;line-height:1.6;color:var(--muted2);margin-bottom:14px;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.side-label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:7px;}
+.side-opts{display:flex;flex-direction:column;gap:6px;}
+.sopt{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:8px;
+  border:1px solid var(--border2);cursor:pointer;font-family:'Outfit',sans-serif;
+  font-size:.78rem;font-weight:500;transition:all .2s;text-decoration:none;
+  color:var(--text);background:var(--s2);width:100%;text-align:left;}
+.sopt:hover{transform:translateX(2px);}
+.soicon{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;
+  justify-content:center;font-size:12px;flex-shrink:0;}
+.sosub{font-size:.62rem;color:var(--muted);margin-top:1px;}
+.sopt.yt{border-color:rgba(255,0,0,.3);}
+.sopt.yt:hover{background:rgba(255,0,0,.1);}
+.sopt.trailer{border-color:rgba(67,97,238,.3);}
+.sopt.trailer:hover{background:rgba(67,97,238,.1);}
+.prov-sec{margin-top:12px;}
+.pchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.pchip{background:var(--s3);border:1px solid var(--border2);
+  border-radius:5px;padding:2px 8px;font-size:.64rem;color:var(--muted2);}
+
+/* MODAL INFO (para ver detalles sin reproducir) */
 #modal{display:none;position:fixed;inset:0;z-index:500;
   background:rgba(0,0,0,.88);overflow-y:auto;padding:1rem;
   align-items:flex-start;justify-content:center;}
 #modal.open{display:flex;}
-.mbox{background:var(--surface);border-radius:14px;width:100%;max-width:860px;
+.mbox{background:var(--surface);border-radius:14px;width:100%;max-width:700px;
   overflow:hidden;border:1px solid var(--border2);margin:auto;}
-
-/* REPRODUCTOR */
-#player-area{display:none;background:#000;}
-#player-frame{width:100%;aspect-ratio:16/9;border:none;display:block;}
-#rbar{display:none;padding:8px 12px;background:var(--s2);
-  border-top:1px solid var(--border);overflow-x:auto;white-space:nowrap;scrollbar-width:thin;}
-.rb{background:var(--s3);border:1px solid var(--border2);color:var(--text);
-  padding:5px 11px;border-radius:6px;font-size:.68rem;cursor:pointer;
-  font-family:'Outfit',sans-serif;white-space:nowrap;margin-right:6px;
-  transition:background .15s;display:inline-block;}
-.rb:hover,.rb.on{background:var(--red);border-color:var(--red);}
-.rb-ext{background:transparent;border:1px solid rgba(255,80,80,.4);color:#ff7070;
-  padding:5px 11px;border-radius:6px;font-size:.68rem;white-space:nowrap;
-  text-decoration:none;display:inline-block;margin-right:6px;}
-
-/* MODAL HEAD */
 .mhead{display:flex;align-items:center;justify-content:space-between;
   padding:14px 18px;border-bottom:1px solid var(--border);}
 .mhead h2{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;}
@@ -163,34 +244,25 @@ main{padding:1.5rem 1.5rem 5rem;}
   width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;
   display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
 .mcls:hover{background:var(--red);}
-
-/* MODAL BODY */
-.mbody{display:grid;grid-template-columns:190px 1fr;}
-.mposter img{width:190px;height:285px;object-fit:cover;display:block;}
-.minfo{padding:16px;display:flex;flex-direction:column;gap:14px;}
-.moverview{font-size:.82rem;line-height:1.65;color:var(--muted2);
-  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;}
-.olabel{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:7px;}
-.opts{display:flex;flex-direction:column;gap:7px;}
-.opt{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:9px;
+.mbody{display:grid;grid-template-columns:170px 1fr;}
+.mposter img{width:170px;height:255px;object-fit:cover;display:block;}
+.minfo{padding:16px;display:flex;flex-direction:column;gap:12px;}
+.moverview{font-size:.82rem;line-height:1.65;color:var(--muted2);}
+.olabel{font-size:.63rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;}
+.mopts{display:flex;flex-direction:column;gap:6px;}
+.mopt{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:9px;
   border:1px solid var(--border2);cursor:pointer;font-family:'Outfit',sans-serif;
-  font-size:.82rem;font-weight:500;transition:all .2s;text-decoration:none;
+  font-size:.8rem;font-weight:500;transition:all .2s;text-decoration:none;
   color:var(--text);background:var(--s2);width:100%;text-align:left;}
-.opt:hover{transform:translateX(3px);}
-.oicon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+.mopt:hover{transform:translateX(3px);}
+.moicon{width:27px;height:27px;border-radius:6px;display:flex;align-items:center;
   justify-content:center;font-size:13px;flex-shrink:0;}
-.osub{font-size:.68rem;color:var(--muted);margin-top:1px;}
-.opt.yt{border-color:rgba(255,0,0,.3);}
-.opt.yt:hover{background:rgba(255,0,0,.1);border-color:rgba(255,0,0,.5);}
-.opt.trailer{border-color:rgba(67,97,238,.3);}
-.opt.trailer:hover{background:rgba(67,97,238,.1);}
-.opt.pluto:hover{background:rgba(255,220,0,.06);}
-.opt.tubi:hover{background:rgba(250,100,0,.07);}
-.prov-sec{margin-top:4px;}
-.pchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
-.pchip{background:var(--s3);border:1px solid var(--border2);
-  border-radius:6px;padding:3px 9px;font-size:.68rem;color:var(--muted2);}
+.mosub{font-size:.66rem;color:var(--muted);margin-top:1px;}
+.mopt.yt{border-color:rgba(255,0,0,.3);}
+.mopt.yt:hover{background:rgba(255,0,0,.1);}
+.mopt.trailer{border-color:rgba(67,97,238,.3);}
+.mopt.trailer:hover{background:rgba(67,97,238,.1);}
 
 /* TOAST */
 #toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:600;
@@ -199,18 +271,20 @@ main{padding:1.5rem 1.5rem 5rem;}
   transform:translateY(60px);opacity:0;transition:all .3s;pointer-events:none;}
 #toast.show{transform:translateY(0);opacity:1;}
 
-@media(max-width:600px){
+@media(max-width:700px){
+  #side-panel{display:none;}
   .mbody{grid-template-columns:1fr;}
   .mposter{display:none;}
   .tabs .tab:not(.on){display:none;}
-  #search-input{width:160px;}
-  #search-input:focus{width:190px;}
-  #autocomplete{width:260px;}
+  #search-input{width:150px;}
+  #search-input:focus{width:185px;}
+  #autocomplete{width:250px;}
 }
 </style>
 </head>
 <body>
 
+<!-- TOPBAR PRINCIPAL -->
 <div id="topbar">
   <div class="logo">Cine<em>Latino</em></div>
   <div class="tabs">
@@ -226,6 +300,7 @@ main{padding:1.5rem 1.5rem 5rem;}
   </div>
 </div>
 
+<!-- HERO -->
 <div id="hero">
   <div id="hero-bg"></div>
   <div class="hero-c">
@@ -235,19 +310,17 @@ main{padding:1.5rem 1.5rem 5rem;}
     <div class="hero-desc" id="hero-desc"></div>
     <div class="hero-btns">
       <button class="hbtn hbtn-red" id="hero-play">▶ Reproducir</button>
-      <button class="hbtn hbtn-ghost" id="hero-trailer">🎞 Tráiler</button>
+      <button class="hbtn hbtn-ghost" id="hero-info">ℹ Más info</button>
     </div>
   </div>
 </div>
 
 <main>
   <div class="genre-bar" id="genre-bar"></div>
-
   <div class="section" id="sec-search" style="display:none;">
     <div class="sec-head"><div class="sec-title" id="search-ttl">🔎 Resultados</div></div>
     <div class="row" id="row-search"></div>
   </div>
-
   <div class="section">
     <div class="sec-head"><div class="sec-title" id="ttl-trend">🔥 Tendencias Hoy</div></div>
     <div class="row" id="row-trend"></div>
@@ -278,14 +351,49 @@ main{padding:1.5rem 1.5rem 5rem;}
   </div>
 </main>
 
-<!-- MODAL -->
+<!-- ── REPRODUCTOR FULLSCREEN ── -->
+<div id="player-page">
+  <div id="player-topbar">
+    <button id="player-back" onclick="closePlayer()">←</button>
+    <div>
+      <span id="player-movie-title">—</span>
+      <span id="player-movie-meta"></span>
+    </div>
+  </div>
+  <div id="player-layout">
+    <!-- VIDEO -->
+    <div id="video-col">
+      <div id="video-wrap">
+        <iframe id="main-frame"
+          allowfullscreen
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen">
+        </iframe>
+      </div>
+      <div id="rbar">
+        <span class="rb-searching">Iniciando...</span>
+      </div>
+    </div>
+    <!-- PANEL LATERAL -->
+    <div id="side-panel">
+      <div id="side-poster"><img id="side-img" src="" alt=""></div>
+      <div id="side-info">
+        <div id="side-title">—</div>
+        <div id="side-meta"></div>
+        <div id="side-desc"></div>
+        <div class="side-label">Otras opciones</div>
+        <div class="side-opts" id="side-opts"></div>
+        <div id="side-prov" style="display:none;" class="prov-sec">
+          <div class="side-label">También en</div>
+          <div class="pchips" id="side-chips"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL INFO -->
 <div id="modal">
   <div class="mbox">
-    <div id="player-area">
-      <iframe id="player-frame" allowfullscreen
-        allow="autoplay; encrypted-media; picture-in-picture"></iframe>
-      <div id="rbar"></div>
-    </div>
     <div class="mhead">
       <div>
         <h2 id="m-title">—</h2>
@@ -299,7 +407,7 @@ main{padding:1.5rem 1.5rem 5rem;}
         <div class="moverview" id="m-desc"></div>
         <div>
           <div class="olabel">▶ Reproducir</div>
-          <div class="opts" id="m-opts">
+          <div class="mopts" id="m-opts">
             <div style="color:var(--muted);font-size:.8rem;">Cargando...</div>
           </div>
         </div>
@@ -328,7 +436,7 @@ const GENRES = {
   18:'Drama',10751:'Familia',14:'Fantasía',27:'Terror',9648:'Misterio',
   10749:'Romance',878:'Sci-Fi',53:'Suspense',37:'Western',
 };
-let mode = 'all';
+let appMode = 'all';
 
 /* ── TMDB ── */
 async function api(path, p={}) {
@@ -338,7 +446,7 @@ async function api(path, p={}) {
   return r.json();
 }
 
-/* ── INVIDIOUS búsqueda YouTube ── */
+/* ── INVIDIOUS ── */
 async function ytSearch(query) {
   for (const host of INV) {
     try {
@@ -374,20 +482,19 @@ function renderCards(items, rowId) {
   el.innerHTML = items.map(item => {
     const isTV  = item.media_type==='tv' || !!item.first_air_date;
     const title = (item.title||item.name||'').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
-    const poster= item.poster_path
-      ? `${IMG}w300${item.poster_path}`
+    const poster= item.poster_path ? `${IMG}w300${item.poster_path}`
       : `https://placehold.co/148x222/10101c/7a788a?text=Sin+imagen`;
     const year  = (item.release_date||item.first_air_date||'').slice(0,4);
     const rat   = item.vote_average ? item.vote_average.toFixed(1) : '';
     const type  = isTV ? 'tv' : 'movie';
-    return `<div class="card" onclick="openModal(${item.id},'${type}')">
+    return `<div class="card" onclick="openInfo(${item.id},'${type}')">
       <img src="${poster}" alt="${title}" loading="lazy">
       <span class="card-badge ${isTV?'tv':''}">${isTV?'SERIE':'FILM'}</span>
       <div class="card-over">
         <div class="card-name">${title}</div>
         <div class="card-acts">
-          <button class="ca ca-play" onclick="event.stopPropagation();openModal(${item.id},'${type}',true)">▶</button>
-          <button class="ca ca-info" onclick="event.stopPropagation();openModal(${item.id},'${type}')">ℹ</button>
+          <button class="ca ca-play" onclick="event.stopPropagation();playMovie(${item.id},'${type}')">▶</button>
+          <button class="ca ca-info" onclick="event.stopPropagation();openInfo(${item.id},'${type}')">ℹ</button>
         </div>
       </div>
       <div class="card-bot">
@@ -430,15 +537,14 @@ function setHero(items) {
   const gs = (m.genre_ids||[]).slice(0,3).map(id=>GENRES[id]).filter(Boolean).join(' · ');
   document.getElementById('hero-meta').innerHTML =
     `${m.vote_average?`<span class="star">⭐ ${m.vote_average.toFixed(1)}</span>`:''}
-     ${year?`<span>${year}</span>`:''}
-     ${gs?`<span>${gs}</span>`:''}`;
-  document.getElementById('hero-play').onclick    = () => openModal(m.id, type, true);
-  document.getElementById('hero-trailer').onclick = () => openModal(m.id, type, false, true);
+     ${year?`<span>${year}</span>`:''}${gs?`<span>${gs}</span>`:''}`;
+  document.getElementById('hero-play').onclick = () => playMovie(m.id, type);
+  document.getElementById('hero-info').onclick = () => openInfo(m.id, type);
 }
 
 /* ── MODO ── */
 function setMode(m, btn) {
-  mode = m;
+  appMode = m;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   document.querySelectorAll('.gp').forEach(g=>g.classList.remove('on'));
@@ -469,14 +575,13 @@ function buildGenres() {
 async function filterGenre(gid, btn) {
   document.querySelectorAll('.gp').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  const ep = mode==='tv' ? '/discover/tv' : '/discover/movie';
+  const ep = appMode==='tv' ? '/discover/tv' : '/discover/movie';
   const res = await loadRow(ep,'row-trend',{with_genres:gid,sort_by:'popularity.desc'});
   if (res.length) setHero(res);
 }
 
-/* ── BÚSQUEDA + AUTOCOMPLETADO ── */
+/* ── BÚSQUEDA ── */
 let acTimer, lastQ='';
-
 const sinput = document.getElementById('search-input');
 const acBox  = document.getElementById('autocomplete');
 
@@ -487,12 +592,10 @@ sinput.addEventListener('input', e => {
   if (!q) { closeAC(); return; }
   acTimer = setTimeout(() => doSearch(q), 380);
 });
-
 sinput.addEventListener('keydown', e => {
   if (e.key==='Escape') clearSearch();
   if (e.key==='Enter') { closeAC(); sinput.blur(); }
 });
-
 document.addEventListener('click', e => {
   if (!e.target.closest('.searchbox')) closeAC();
 });
@@ -506,18 +609,17 @@ async function doSearch(q) {
     const items = (d.results||[])
       .filter(r=>r.poster_path&&(r.media_type==='movie'||r.media_type==='tv'))
       .slice(0,6);
-    if (!items.length) { showAC('<div class="ac-msg">Sin resultados para "'+q+'"</div>'); return; }
+    if (!items.length) { showAC(`<div class="ac-msg">Sin resultados para "${q}"</div>`); return; }
     acBox.innerHTML = items.map(item => {
       const isTV  = item.media_type==='tv';
       const title = item.title||item.name||'';
       const year  = (item.release_date||item.first_air_date||'').slice(0,4);
       const rat   = item.vote_average ? item.vote_average.toFixed(1) : '';
       const type  = isTV ? 'tv' : 'movie';
-      const thumb = item.poster_path
-        ? `${IMG}w92${item.poster_path}`
+      const thumb = item.poster_path ? `${IMG}w92${item.poster_path}`
         : `https://placehold.co/34x51/10101c/7a788a?text=?`;
       return `<div class="ac-item" onclick="pickResult(${item.id},'${type}')">
-        <img class="ac-thumb" src="${thumb}" alt="${title.replace(/"/g,'&quot;')}">
+        <img class="ac-thumb" src="${thumb}" alt="">
         <div>
           <div class="ac-title">${title}</div>
           <div class="ac-meta">${isTV?'Serie':'Película'} · ${year}${rat?' · ⭐'+rat:''}</div>
@@ -525,7 +627,6 @@ async function doSearch(q) {
       </div>`;
     }).join('');
     acBox.style.display = 'block';
-    // Actualizar sección resultados
     renderCards(items, 'row-search');
     document.getElementById('search-ttl').textContent = `🔎 "${q}"`;
     document.getElementById('sec-search').style.display = '';
@@ -533,47 +634,130 @@ async function doSearch(q) {
     showAC('<div class="ac-msg">Error al buscar</div>');
   }
 }
-
-function showAC(html) {
-  acBox.innerHTML = html;
-  acBox.style.display = 'block';
-}
-function closeAC() {
-  acBox.style.display = 'none';
-}
-function pickResult(id, type) {
-  closeAC();
-  sinput.blur();
-  openModal(id, type);
-}
-function clearSearch() {
-  sinput.value = '';
-  document.getElementById('s-clear').style.display = 'none';
-  document.getElementById('sec-search').style.display = 'none';
-  lastQ = '';
-  closeAC();
+function showAC(html){ acBox.innerHTML=html; acBox.style.display='block'; }
+function closeAC(){ acBox.style.display='none'; }
+function pickResult(id, type){ closeAC(); sinput.blur(); openInfo(id, type); }
+function clearSearch(){
+  sinput.value=''; document.getElementById('s-clear').style.display='none';
+  document.getElementById('sec-search').style.display='none'; lastQ=''; closeAC();
 }
 
-/* ── REPRODUCTOR ── */
-function embedYT(videoId) {
-  const area  = document.getElementById('player-area');
-  const frame = document.getElementById('player-frame');
-  frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-  area.style.display = '';
-  document.getElementById('rbar').style.display = 'none';
-  area.scrollIntoView({behavior:'smooth', block:'start'});
+/* ─────────────────────────────────────────
+   REPRODUCTOR FULLSCREEN
+───────────────────────────────────────── */
+let currentMovie = null;
+
+async function playMovie(id, type) {
+  // Abrir pantalla de reproducción
+  const page = document.getElementById('player-page');
+  page.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  closeModal();
+
+  // Resetear
+  const frame = document.getElementById('main-frame');
+  const rbar  = document.getElementById('rbar');
+  frame.src   = '';
+  rbar.innerHTML = '<span class="rb-searching">⏳ Cargando...</span>';
+  document.getElementById('side-opts').innerHTML = '';
+  document.getElementById('side-prov').style.display = 'none';
+  document.getElementById('player-movie-title').textContent = '...';
+  document.getElementById('player-movie-meta').textContent = '';
+
+  try {
+    const [det, vids, prov] = await Promise.all([
+      api(`/${type}/${id}`),
+      api(`/${type}/${id}/videos`),
+      api(`/${type}/${id}/watch/providers`),
+    ]);
+
+    const title   = det.title||det.name||'';
+    const year    = (det.release_date||det.first_air_date||'').slice(0,4);
+    const rating  = det.vote_average ? det.vote_average.toFixed(1) : '';
+    const genres  = (det.genres||[]).map(g=>g.name).slice(0,3).join(', ');
+    const runtime = det.runtime ? `${det.runtime} min` : det.episode_run_time?.[0] ? `~${det.episode_run_time[0]}min/ep` : '';
+    const poster  = det.poster_path   ? `${IMG}w300${det.poster_path}`  : '';
+    const backdrop= det.backdrop_path ? `${IMG}w780${det.backdrop_path}`: '';
+
+    currentMovie = { id, type, title, year, tipo: type==='tv'?'serie':'pelicula' };
+
+    // Topbar
+    document.getElementById('player-movie-title').textContent = title;
+    document.getElementById('player-movie-meta').textContent  = ` · ${[year, rating?'⭐'+rating:'', runtime].filter(Boolean).join(' · ')}`;
+
+    // Panel lateral
+    const simg = document.getElementById('side-img');
+    simg.src = backdrop || poster;
+    simg.style.display = backdrop||poster ? '' : 'none';
+    document.getElementById('side-title').textContent = title;
+    document.getElementById('side-meta').textContent  = [year, genres, rating?`⭐ ${rating}`:''].filter(Boolean).join(' · ');
+    document.getElementById('side-desc').textContent  = det.overview||'Sin descripción.';
+
+    // Videos TMDB
+    const ytVids  = (vids.results||[]).filter(v=>v.site==='YouTube');
+    const esTrail = ytVids.find(v=>v.type==='Trailer'&&v.iso_639_1==='es');
+    const trailer = esTrail || ytVids.find(v=>v.type==='Trailer') || ytVids[0];
+    const safeT   = title.replace(/'/g,"\\'");
+    const tipo    = type==='tv' ? 'serie' : 'pelicula';
+
+    // Opciones laterales
+    let shtml = '';
+    if (trailer) {
+      const tl = esTrail ? 'Tráiler en Español' : 'Tráiler Oficial';
+      shtml += `<button class="sopt trailer" onclick="loadFrame('${trailer.key}')">
+        <div class="soicon" style="background:var(--blue);">🎞</div>
+        <div><div>${tl}</div><div class="sosub">${trailer.name||''}</div></div>
+      </button>`;
+    }
+    shtml += `<a class="sopt" href="https://pluto.tv/es/search?q=${encodeURIComponent(title)}" target="_blank">
+      <div class="soicon" style="background:#ffdc00;color:#000;">📺</div>
+      <div><div>Pluto TV</div><div class="sosub">Gratis · Colombia</div></div>
+    </a>`;
+    shtml += `<a class="sopt" href="https://tubitv.com/search/${encodeURIComponent(title)}" target="_blank">
+      <div class="soicon" style="background:#fa6400;color:#fff;">T</div>
+      <div><div>Tubi</div><div class="sosub">Gratis con anuncios</div></div>
+    </a>`;
+    shtml += `<a class="sopt" href="https://www.themoviedb.org/${type}/${id}" target="_blank">
+      <div class="soicon" style="background:var(--s3);">🎬</div>
+      <div><div>Ficha TMDB</div><div class="sosub">Reparto y más info</div></div>
+    </a>`;
+    document.getElementById('side-opts').innerHTML = shtml;
+
+    // Plataformas de pago
+    const reg = prov.results?.CO||prov.results?.MX||prov.results?.AR||prov.results?.ES||prov.results?.US;
+    if (reg) {
+      const all    = [...(reg.flatrate||[]),...(reg.rent||[]),...(reg.buy||[])];
+      const unique = [...new Map(all.map(p=>[p.provider_id,p])).values()];
+      if (unique.length) {
+        document.getElementById('side-chips').innerHTML = unique.slice(0,6)
+          .map(p=>`<span class="pchip">${p.provider_name}</span>`).join('');
+        document.getElementById('side-prov').style.display = '';
+      }
+    }
+
+    // Buscar y reproducir
+    await searchAndPlay(title, year, tipo);
+
+  } catch(e) {
+    document.getElementById('rbar').innerHTML =
+      `<span class="rb-searching">Error al cargar detalles</span>`;
+  }
 }
 
+// Carga un videoId directamente en el iframe
+function loadFrame(videoId) {
+  document.getElementById('main-frame').src =
+    `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+  document.querySelectorAll('.rb').forEach(b=>b.classList.remove('on'));
+}
+
+// Busca en Invidious y reproduce el mejor resultado
 async function searchAndPlay(title, year, tipo) {
-  const area  = document.getElementById('player-area');
-  const frame = document.getElementById('player-frame');
+  const frame = document.getElementById('main-frame');
   const rbar  = document.getElementById('rbar');
 
+  rbar.innerHTML = `<span class="rb-searching">🔍 Buscando "${title}" en español...</span>`;
   frame.src = '';
-  area.style.display = '';
-  rbar.style.display = 'block';
-  rbar.innerHTML = `<span style="color:var(--muted2);font-size:.75rem;">🔍 Buscando "${title}" en YouTube...</span>`;
-  area.scrollIntoView({behavior:'smooth', block:'start'});
 
   const queries = [
     `${title} ${year} ${tipo} completa español latino`,
@@ -588,50 +772,56 @@ async function searchAndPlay(title, year, tipo) {
   }
 
   if (results.length) {
-    frame.src = `https://www.youtube.com/embed/${results[0].videoId}?autoplay=1&rel=0&modestbranding=1`;
+    loadFrame(results[0].videoId);
     const q0 = encodeURIComponent(`${title} ${year} ${tipo} completa español`);
     rbar.innerHTML =
-      `<span style="color:var(--muted2);font-size:.68rem;margin-right:6px;">▶</span>` +
+      `<span style="color:var(--muted2);font-size:.68rem;flex-shrink:0;margin-right:4px;">▶</span>` +
       results.map((v,i) => {
-        const lbl = (v.title||'Video').slice(0,30);
+        const lbl = (v.title||'Video').slice(0,28);
         return `<button class="rb ${i===0?'on':''}" onclick="switchVid('${v.videoId}',this)">${i===0?'▶ ':''}${lbl}</button>`;
       }).join('') +
-      `<a class="rb-ext" href="https://www.youtube.com/results?search_query=${q0}" target="_blank">Más en YouTube ↗</a>`;
+      `<a class="rb-ext" href="https://www.youtube.com/results?search_query=${q0}" target="_blank">Más ↗</a>`;
+    // Marcar el primero como activo
+    const firstBtn = rbar.querySelector('.rb');
+    if (firstBtn) firstBtn.classList.add('on');
   } else {
-    // Sin resultados de Invidious → fallback links
-    area.style.display = 'none';
-    document.getElementById('fallback')?.remove();
+    // Fallback
     const q0 = encodeURIComponent(`${title} ${year} ${tipo} completa español`);
     const q1 = encodeURIComponent(`${title} ${year} ${tipo} completa subtitulada`);
-    const div = document.createElement('div');
-    div.id = 'fallback';
-    div.style.cssText='padding:12px 14px;background:var(--s2);border:1px solid var(--border2);border-radius:9px;margin-top:6px;';
-    div.innerHTML=`<div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">No se pudo cargar automáticamente. Busca en YouTube:</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <a class="rb-ext" href="https://www.youtube.com/results?search_query=${q0}" target="_blank">En español ↗</a>
-        <a class="rb-ext" href="https://www.youtube.com/results?search_query=${q1}" target="_blank">Subtitulada ↗</a>
-      </div>`;
-    document.getElementById('m-opts').after(div);
+    rbar.innerHTML =
+      `<span class="rb-searching">No encontrado automáticamente →</span>
+       <a class="rb-ext" href="https://www.youtube.com/results?search_query=${q0}" target="_blank">Buscar en español ↗</a>
+       <a class="rb-ext" href="https://www.youtube.com/results?search_query=${q1}" target="_blank">Subtitulada ↗</a>`;
   }
 }
 
 function switchVid(videoId, btn) {
-  document.getElementById('player-frame').src =
+  document.getElementById('main-frame').src =
     `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
   document.querySelectorAll('.rb').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
 }
 
-/* ── MODAL ── */
-async function openModal(id, type, autoPlay=false, autoTrailer=false) {
+function closePlayer() {
+  document.getElementById('player-page').classList.remove('open');
+  document.getElementById('main-frame').src = '';
+  document.body.style.overflow = '';
+}
+
+// ESC para cerrar el reproductor
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') {
+    if (document.getElementById('player-page').classList.contains('open')) closePlayer();
+    else closeModal();
+  }
+});
+
+/* ─────────────────────────────────────────
+   MODAL INFO
+───────────────────────────────────────── */
+async function openInfo(id, type) {
   const modal = document.getElementById('modal');
   modal.classList.add('open');
-  // Reset
-  document.getElementById('player-area').style.display = 'none';
-  document.getElementById('player-frame').src = '';
-  document.getElementById('rbar').style.display = 'none';
-  document.getElementById('rbar').innerHTML = '';
-  document.getElementById('fallback')?.remove();
   document.getElementById('m-opts').innerHTML = '<div style="color:var(--muted);font-size:.8rem;">Cargando...</div>';
   document.getElementById('m-prov').style.display = 'none';
 
@@ -644,9 +834,7 @@ async function openModal(id, type, autoPlay=false, autoTrailer=false) {
 
     const title   = det.title||det.name||'';
     const year    = (det.release_date||det.first_air_date||'').slice(0,4);
-    const runtime = det.runtime
-      ? `${det.runtime} min`
-      : det.episode_run_time?.[0] ? `~${det.episode_run_time[0]}min/ep` : '';
+    const runtime = det.runtime ? `${det.runtime} min` : det.episode_run_time?.[0] ? `~${det.episode_run_time[0]}min/ep` : '';
     const rating  = det.vote_average ? det.vote_average.toFixed(1) : '';
     const genres  = (det.genres||[]).map(g=>g.name).join(', ');
     const poster  = det.poster_path   ? `${IMG}w300${det.poster_path}` : '';
@@ -654,63 +842,39 @@ async function openModal(id, type, autoPlay=false, autoTrailer=false) {
 
     document.getElementById('m-title').textContent = title;
     document.getElementById('m-meta').textContent  = [year,runtime,rating?`⭐ ${rating}`:'',genres].filter(Boolean).join(' · ');
-    document.getElementById('m-desc').textContent  = det.overview||'Sin descripción disponible.';
+    document.getElementById('m-desc').textContent  = det.overview||'Sin descripción.';
     const pEl = document.getElementById('m-poster');
-    pEl.src = poster||backdrop;
-    pEl.style.display = poster||backdrop ? '' : 'none';
+    pEl.src = poster||backdrop; pEl.style.display = poster||backdrop ? '' : 'none';
 
-    // YouTube videos de TMDB
     const ytVids  = (vids.results||[]).filter(v=>v.site==='YouTube');
     const esTrail = ytVids.find(v=>v.type==='Trailer'&&v.iso_639_1==='es');
     const trailer = esTrail || ytVids.find(v=>v.type==='Trailer') || ytVids[0];
-    const isTV    = type==='tv';
-    const tipo    = isTV ? 'serie' : 'pelicula';
+    const tipo    = type==='tv' ? 'serie' : 'pelicula';
     const safeT   = title.replace(/'/g,"\\'");
 
     let html = '';
-
-    // Reproducir aquí (buscar en YouTube vía Invidious)
-    html += `<button class="opt yt" onclick="searchAndPlay('${safeT}','${year}','${tipo}')">
-      <div class="oicon" style="background:#ff0000;color:#fff;">▶</div>
-      <div>
-        <div>Reproducir en esta página</div>
-        <div class="osub">Busca en YouTube · se reproduce aquí dentro</div>
-      </div>
+    // Reproducir
+    html += `<button class="mopt yt" onclick="closeModal();playMovie(${id},'${type}')">
+      <div class="moicon" style="background:var(--red);color:#fff;">▶</div>
+      <div><div>▶ Reproducir en esta página</div><div class="mosub">Abre el reproductor a pantalla completa</div></div>
     </button>`;
-
-    // Tráiler oficial
+    // Tráiler
     if (trailer) {
-      const tl = esTrail ? 'Tráiler en Español' : 'Tráiler Oficial';
-      html += `<button class="opt trailer" onclick="embedYT('${trailer.key}')">
-        <div class="oicon" style="background:var(--blue);">🎞</div>
-        <div>
-          <div>${tl}</div>
-          <div class="osub">${trailer.name||''}</div>
-        </div>
+      html += `<button class="mopt trailer" onclick="closeModal();playMovie(${id},'${type}')">
+        <div class="moicon" style="background:var(--blue);">🎞</div>
+        <div><div>${esTrail?'Tráiler en Español':'Tráiler Oficial'}</div><div class="mosub">${trailer.name||''}</div></div>
       </button>`;
     }
-
-    // Pluto TV
-    html += `<a class="opt pluto" href="https://pluto.tv/es/search?q=${encodeURIComponent(title)}" target="_blank">
-      <div class="oicon" style="background:#ffdc00;color:#000;">📺</div>
-      <div><div>Pluto TV</div><div class="osub">Gratis con anuncios · disponible en Colombia</div></div>
+    html += `<a class="mopt" href="https://pluto.tv/es/search?q=${encodeURIComponent(title)}" target="_blank">
+      <div class="moicon" style="background:#ffdc00;color:#000;">📺</div>
+      <div><div>Pluto TV</div><div class="mosub">Gratis · Colombia</div></div>
     </a>`;
-
-    // Tubi
-    html += `<a class="opt tubi" href="https://tubitv.com/search/${encodeURIComponent(title)}" target="_blank">
-      <div class="oicon" style="background:#fa6400;color:#fff;font-weight:700;">T</div>
-      <div><div>Tubi</div><div class="osub">Gratis con anuncios · gran catálogo</div></div>
+    html += `<a class="mopt" href="https://tubitv.com/search/${encodeURIComponent(title)}" target="_blank">
+      <div class="moicon" style="background:#fa6400;color:#fff;">T</div>
+      <div><div>Tubi</div><div class="mosub">Gratis con anuncios</div></div>
     </a>`;
-
-    // TMDB
-    html += `<a class="opt" href="https://www.themoviedb.org/${type}/${id}" target="_blank">
-      <div class="oicon" style="background:var(--s3);">🎬</div>
-      <div><div>Ficha en TMDB</div><div class="osub">Reparto, críticas, más info</div></div>
-    </a>`;
-
     document.getElementById('m-opts').innerHTML = html;
 
-    // Plataformas de pago
     const reg = prov.results?.CO||prov.results?.MX||prov.results?.AR||prov.results?.ES||prov.results?.US;
     if (reg) {
       const all    = [...(reg.flatrate||[]),...(reg.rent||[]),...(reg.buy||[])];
@@ -721,21 +885,14 @@ async function openModal(id, type, autoPlay=false, autoTrailer=false) {
         document.getElementById('m-prov').style.display = '';
       }
     }
-
-    if (autoPlay)              searchAndPlay(title, year, tipo);
-    if (autoTrailer && trailer) embedYT(trailer.key);
-
-  } catch(e) {
+  } catch {
     document.getElementById('m-opts').innerHTML = '<p style="color:var(--muted);font-size:.8rem;">Error al cargar.</p>';
   }
 }
 
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
-  document.getElementById('player-frame').src = '';
-  document.getElementById('player-area').style.display = 'none';
 }
-
 document.getElementById('modal').addEventListener('click', e => {
   if (e.target===document.getElementById('modal')) closeModal();
 });
@@ -743,8 +900,7 @@ document.getElementById('modal').addEventListener('click', e => {
 /* ── TOAST ── */
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 3000);
 }
 
